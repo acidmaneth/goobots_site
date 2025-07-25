@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import logoPath from "@assets/AOTGLogo_1753402328659.png";
-import framePath from "@assets/AOTG_Web_1753402320260.png";
+import framePath from "@assets/AOTG_Web_1753403269088.png";
 
 interface FAQItem {
   question: string;
@@ -56,10 +56,8 @@ export default function Home() {
             className="mx-auto w-64 h-auto logo-glow hover:scale-105 transition-transform duration-300"
           />
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold mb-4 font-game">Game Demo</h1>
         <p className="text-lg opacity-90 max-w-2xl mx-auto font-game">
-          Experience the action-packed world of Attack of the Goobots! 
-          Play the demo below and prepare for an epic adventure.
+          A Mooncat Rescue Story
         </p>
       </header>
 

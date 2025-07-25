@@ -92,7 +92,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="text-center mb-12 mt-8">
+        <div className="text-center mb-8 mt-16">
           <Button 
             onClick={startGame}
             className="bg-white text-game-orange px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg"
@@ -103,7 +103,7 @@ export default function Home() {
       </main>
 
       {/* FAQ Section */}
-      <section className="container mx-auto px-4 py-6">
+      <section className="container mx-auto px-4 py-2">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8 font-game">Frequently Asked Questions</h2>
 

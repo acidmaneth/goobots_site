@@ -3,7 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import logoPath from "@assets/AOTGLogo_1753402328659.png";
-import framePath from "@assets/AOTG_Web_1753403269088.png";
+import newFramePath from "@assets/AOTG_Web_1753403269088.png";
+import oldFramePath from "@assets/AOTG_Web_1753402320260.png";
 
 interface FAQItem {
   question: string;
@@ -48,8 +49,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-game-orange text-white">
       {/* Header */}
-      <header className="container mx-auto px-4 py-6 text-center">
-        <div className="mb-3">
+      <header className="container mx-auto px-4 py-4 text-center">
+        <div className="mb-1">
           <img 
             src={logoPath} 
             alt="Attack of the Goobots Logo" 
@@ -57,20 +58,24 @@ export default function Home() {
             style={{ imageRendering: 'pixelated' }}
           />
         </div>
-        <p className="text-lg opacity-90 max-w-2xl mx-auto font-game mb-4">
+        <p className="text-lg opacity-90 max-w-2xl mx-auto font-game mb-2">
           A Mooncat Rescue Story
         </p>
       </header>
 
       {/* Game Demo */}
-      <main className="container mx-auto px-4 py-4">
-        <div className="flex justify-center mb-12">
+      <main className="container mx-auto px-4 py-2">
+        <div className="flex justify-center mb-8">
           <div className="relative game-frame max-w-[480px] w-full">
             <img 
-              src={framePath} 
+              src={newFramePath} 
               alt="Game Frame" 
               className="w-full h-auto"
               style={{ imageRendering: 'pixelated' }}
+              onError={(e) => {
+                console.log('Frame failed to load, trying fallback');
+                e.currentTarget.src = oldFramePath;
+              }}
             />
             
             {/* Game Area with 16:9 aspect ratio */}

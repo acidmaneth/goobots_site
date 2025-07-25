@@ -70,6 +70,7 @@ export default function Home() {
               src={framePath} 
               alt="Game Frame" 
               className="w-full h-auto"
+              style={{ imageRendering: 'pixelated' }}
             />
             
             {/* Game Area with 16:9 aspect ratio */}

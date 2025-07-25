@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import logoPath from "@assets/AOTGLogo_1753402328659.png";
+import logoPath from "@assets/AOTGLogo_1753405413377.png";
 import framePath from "@assets/game_frame.png";
 
 interface FAQItem {
@@ -65,20 +65,25 @@ export default function Home() {
       {/* Game Demo */}
       <main className="container mx-auto px-4 py-1">
         <div className="flex justify-center mb-6">
-          <div className="relative game-frame max-w-[480px] w-full">
-            <img 
-              src={framePath} 
-              alt="Game Frame" 
-              className="w-full h-auto"
-              style={{ imageRendering: 'pixelated' }}
-            />
-            
-            {/* Game Area with 16:9 aspect ratio */}
-            <div className="game-area absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[85%] h-[75%] bg-black rounded-md flex items-center justify-center">
-              <div className="text-center text-game-green">
-                <div className="text-4xl mb-2">🎮</div>
-                <div className="text-sm font-medium">GAME LOADS HERE</div>
-                <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
+          <div className="relative max-w-[480px] w-full">
+            {/* Frame Image as background */}
+            <div 
+              className="w-full bg-center bg-no-repeat bg-contain"
+              style={{ 
+                backgroundImage: `url(${framePath})`,
+                aspectRatio: '480/270',
+                imageRendering: 'pixelated'
+              }}
+            >
+              {/* Game Area positioned inside frame */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-black w-[78%] h-[70%] flex items-center justify-center" style={{ aspectRatio: '16/9' }}>
+                  <div className="text-center text-game-green">
+                    <div className="text-4xl mb-2">🎮</div>
+                    <div className="text-sm font-medium">GAME LOADS HERE</div>
+                    <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

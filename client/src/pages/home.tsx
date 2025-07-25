@@ -75,7 +75,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Frame Image on top - 199% scale with transform */}
+            {/* Frame Image on top - 200% scale with transform */}
             <img 
               src={framePath} 
               alt="Game Frame" 
@@ -84,8 +84,8 @@ export default function Home() {
                 imageRendering: 'pixelated',
                 width: '480px',
                 height: '270px',
-                top: '54.5%',
-                transform: 'translate(-50%, -50%) scale(1.99)',
+                top: '54%',
+                transform: 'translate(-50%, -50%) scale(2)',
                 transformOrigin: 'center'
               }}
             />

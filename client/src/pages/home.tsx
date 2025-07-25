@@ -57,7 +57,7 @@ export default function Home() {
             style={{ imageRendering: 'pixelated' }}
           />
         </div>
-        <p className="text-lg opacity-90 max-w-2xl mx-auto mb-6" style={{ fontFamily: 'monospace', imageRendering: 'pixelated' }}>
+        <p className="text-lg opacity-90 max-w-2xl mx-auto mb-6 pt-3" style={{ fontFamily: '"Courier New", "Monaco", "Menlo", "Consolas", monospace', fontWeight: 'bold', letterSpacing: '1px', imageRendering: 'pixelated' }}>
           A Mooncat Rescue Story
         </p>
       </header>

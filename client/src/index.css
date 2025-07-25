@@ -80,6 +80,9 @@
   
   .logo-glow {
     filter: drop-shadow(0 0 10px rgba(127, 255, 0, 0.3));
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
   }
   
   .game-frame {

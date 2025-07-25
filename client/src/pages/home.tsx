@@ -48,21 +48,22 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-game-orange text-white">
       {/* Header */}
-      <header className="container mx-auto px-4 py-8 text-center">
-        <div className="mb-6">
+      <header className="container mx-auto px-4 py-6 text-center">
+        <div className="mb-3">
           <img 
             src={logoPath} 
             alt="Attack of the Goobots Logo" 
             className="mx-auto w-64 h-auto logo-glow hover:scale-105 transition-transform duration-300"
+            style={{ imageRendering: 'pixelated' }}
           />
         </div>
-        <p className="text-lg opacity-90 max-w-2xl mx-auto font-game">
+        <p className="text-lg opacity-90 max-w-2xl mx-auto font-game mb-4">
           A Mooncat Rescue Story
         </p>
       </header>
 
       {/* Game Demo */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-4">
         <div className="flex justify-center mb-12">
           <div className="relative game-frame max-w-[480px] w-full">
             <img 

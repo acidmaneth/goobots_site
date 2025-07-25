@@ -75,17 +75,18 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Frame Image on top - double size with transform scale */}
+            {/* Frame Image on top - 200% scale with pixel interpretation */}
             <img 
               src={framePath} 
               alt="Game Frame" 
               className="absolute left-1/2 pointer-events-none"
               style={{ 
                 imageRendering: 'pixelated',
-                width: '480px',
+                imageRendering: 'crisp-edges',
+                width: '960px',
+                height: '540px',
                 top: '53.5%',
-                height: 'auto',
-                transform: 'translate(-50%, -50%) scale(2)',
+                transform: 'translate(-50%, -50%)',
                 transformOrigin: 'center'
               }}
             />

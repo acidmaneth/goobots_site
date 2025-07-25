@@ -65,9 +65,9 @@ export default function Home() {
       {/* Game Demo */}
       <main className="container mx-auto px-4 py-1">
         <div className="flex justify-center mb-6">
-          <div className="relative">
+          <div className="relative border-4 border-black">
             {/* Game Area - Black window below */}
-            <div className="bg-black w-[480px] h-[270px] flex items-center justify-center border-4 border-black">
+            <div className="bg-black w-[480px] h-[270px] flex items-center justify-center">
               <div className="text-center text-game-green">
                 <div className="text-4xl mb-2">🎮</div>
                 <div className="text-sm font-medium">GAME LOADS HERE</div>

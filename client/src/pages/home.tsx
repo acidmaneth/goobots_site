@@ -84,7 +84,7 @@ export default function Home() {
                 imageRendering: 'pixelated',
                 width: '480px',
                 height: '270px',
-                top: '54%',
+                top: '54.5%',
                 transform: 'translate(-50%, -50%) scale(1.99)',
                 transformOrigin: 'center'
               }}

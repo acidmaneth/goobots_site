@@ -75,7 +75,7 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Frame Image on top - always 2x the game window size */}
+            {/* Frame Image on top - always 2x the game window size, maintaining aspect ratio */}
             <img 
               src={framePath} 
               alt="Game Frame" 
@@ -83,7 +83,7 @@ export default function Home() {
               style={{ 
                 imageRendering: 'pixelated',
                 width: '960px',
-                height: '540px',
+                height: 'auto',
                 transform: 'translate(-50%, -50%)'
               }}
             />

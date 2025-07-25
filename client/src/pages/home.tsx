@@ -66,25 +66,15 @@ export default function Home() {
       <main className="container mx-auto px-4 py-1">
         <div className="flex justify-center mb-6">
           <div className="relative">
-            {/* Game Area - Black window behind */}
-            <div className="bg-black w-[480px] h-[270px] flex items-center justify-center">
-              <div className="text-center text-game-green">
-                <div className="text-4xl mb-2">🎮</div>
-                <div className="text-sm font-medium">GAME LOADS HERE</div>
-                <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
-              </div>
-            </div>
-            
-            {/* Frame Image on top - sized to fit properly around game window */}
+            {/* Frame Image only - no game window */}
             <img 
               src={framePath} 
               alt="Game Frame" 
-              className="absolute top-1/2 left-1/2 pointer-events-none"
+              className="pointer-events-none"
               style={{ 
                 imageRendering: 'pixelated',
                 width: '600px',
-                height: 'auto',
-                transform: 'translate(-50%, -50%)'
+                height: 'auto'
               }}
             />
           </div>

@@ -65,29 +65,28 @@ export default function Home() {
       {/* Game Demo */}
       <main className="container mx-auto px-4 py-1">
         <div className="flex justify-center mb-6">
-          <div className="relative">
-            {/* Game Area - Black window below */}
-            <div className="bg-black w-[480px] h-[270px] flex items-center justify-center">
+          <div className="relative flex items-center justify-center">
+            {/* Frame Image - scaled 2x */}
+            <img 
+              src={framePath} 
+              alt="Game Frame" 
+              className="pointer-events-none"
+              style={{ 
+                imageRendering: 'pixelated',
+                width: '480px',
+                height: 'auto',
+                transform: 'scale(2)'
+              }}
+            />
+            
+            {/* Game Area - Black window positioned at center of frame */}
+            <div className="bg-black w-[480px] h-[270px] flex items-center justify-center absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%)' }}>
               <div className="text-center text-game-green">
                 <div className="text-4xl mb-2">🎮</div>
                 <div className="text-sm font-medium">GAME LOADS HERE</div>
                 <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
               </div>
             </div>
-            
-            {/* Frame Image on top - double size with transform scale */}
-            <img 
-              src={framePath} 
-              alt="Game Frame" 
-              className="absolute top-1/2 left-1/2 pointer-events-none"
-              style={{ 
-                imageRendering: 'pixelated',
-                width: '480px',
-                height: 'auto',
-                transform: 'translate(-50%, -50%) scale(2)',
-                transformOrigin: 'center'
-              }}
-            />
           </div>
         </div>
 

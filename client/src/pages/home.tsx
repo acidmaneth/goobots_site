@@ -75,15 +75,13 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Frame Image on top - 2x scale */}
+            {/* Frame Image on top */}
             <img 
               src={framePath} 
               alt="Game Frame" 
               className="absolute inset-0 w-full h-full object-contain pointer-events-none"
               style={{ 
-                imageRendering: 'pixelated',
-                transform: 'scale(2)',
-                transformOrigin: 'center'
+                imageRendering: 'pixelated'
               }}
             />
           </div>

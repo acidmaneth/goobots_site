@@ -65,9 +65,9 @@ export default function Home() {
       {/* Game Demo */}
       <main className="container mx-auto px-4 py-1">
         <div className="flex justify-center mb-6">
-          <div className="relative max-w-[960px] w-full">
+          <div className="relative">
             {/* Game Area - Black window behind */}
-            <div className="bg-black w-[90%] h-auto flex items-center justify-center mx-auto" style={{ aspectRatio: '16/9' }}>
+            <div className="bg-black w-[480px] h-[270px] flex items-center justify-center">
               <div className="text-center text-game-green">
                 <div className="text-4xl mb-2">🎮</div>
                 <div className="text-sm font-medium">GAME LOADS HERE</div>
@@ -75,13 +75,16 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Frame Image on top */}
+            {/* Frame Image on top - always 2x the game window size */}
             <img 
               src={framePath} 
               alt="Game Frame" 
-              className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+              className="absolute top-1/2 left-1/2 pointer-events-none"
               style={{ 
-                imageRendering: 'pixelated'
+                imageRendering: 'pixelated',
+                width: '960px',
+                height: '540px',
+                transform: 'translate(-50%, -50%)'
               }}
             />
           </div>

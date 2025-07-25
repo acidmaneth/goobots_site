@@ -65,27 +65,27 @@ export default function Home() {
       {/* Game Demo */}
       <main className="container mx-auto px-4 py-1">
         <div className="flex justify-center mb-6">
-          <div className="relative max-w-[480px] w-full">
-            {/* Frame Image as background */}
-            <div 
-              className="w-full bg-center bg-no-repeat bg-contain"
-              style={{ 
-                backgroundImage: `url(${framePath})`,
-                aspectRatio: '480/270',
-                imageRendering: 'pixelated'
-              }}
-            >
-              {/* Game Area positioned inside frame */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-black w-[78%] h-[70%] flex items-center justify-center" style={{ aspectRatio: '16/9' }}>
-                  <div className="text-center text-game-green">
-                    <div className="text-4xl mb-2">🎮</div>
-                    <div className="text-sm font-medium">GAME LOADS HERE</div>
-                    <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
-                  </div>
-                </div>
+          <div className="relative max-w-[960px] w-full">
+            {/* Game Area - Black window behind */}
+            <div className="bg-black w-full h-auto flex items-center justify-center" style={{ aspectRatio: '16/9' }}>
+              <div className="text-center text-game-green">
+                <div className="text-4xl mb-2">🎮</div>
+                <div className="text-sm font-medium">GAME LOADS HERE</div>
+                <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
               </div>
             </div>
+            
+            {/* Frame Image on top - 2x scale */}
+            <img 
+              src={framePath} 
+              alt="Game Frame" 
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+              style={{ 
+                imageRendering: 'pixelated',
+                transform: 'scale(2)',
+                transformOrigin: 'center'
+              }}
+            />
           </div>
         </div>
 

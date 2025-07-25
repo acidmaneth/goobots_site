@@ -67,7 +67,7 @@ export default function Home() {
         <div className="flex justify-center mb-6">
           <div className="relative max-w-[960px] w-full">
             {/* Game Area - Black window behind */}
-            <div className="bg-black w-full h-auto flex items-center justify-center" style={{ aspectRatio: '16/9' }}>
+            <div className="bg-black w-[90%] h-auto flex items-center justify-center mx-auto" style={{ aspectRatio: '16/9' }}>
               <div className="text-center text-game-green">
                 <div className="text-4xl mb-2">🎮</div>
                 <div className="text-sm font-medium">GAME LOADS HERE</div>

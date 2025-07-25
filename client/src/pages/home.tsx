@@ -83,7 +83,7 @@ export default function Home() {
               style={{ 
                 imageRendering: 'pixelated',
                 width: '480px',
-                top: '54%',
+                top: '53.5%',
                 height: 'auto',
                 transform: 'translate(-50%, -50%) scale(2)',
                 transformOrigin: 'center'

@@ -74,8 +74,8 @@ export default function Home() {
                 <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
               </div>
             </div>
-            
-            {/* Frame Image on top - 200% scale with transform */}
+
+            {/* Frame Image on top - 202% scale with transform */}
             <img 
               src={framePath} 
               alt="Game Frame" 
@@ -85,7 +85,7 @@ export default function Home() {
                 width: '480px',
                 height: '270px',
                 top: '53.5%',
-                transform: 'translate(-50%, -50%) scale(2)',
+                transform: 'translate(-50%, -50%) scale(2.02)',
                 transformOrigin: 'center'
               }}
             />
@@ -106,7 +106,7 @@ export default function Home() {
       <section className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8 font-game">Frequently Asked Questions</h2>
-          
+
           <Card className="bg-white bg-opacity-10 rounded-xl p-6 backdrop-blur-sm border-white border-opacity-20">
             {faqItems.map((item, index) => (
               <div key={index} className={`faq-item ${index < faqItems.length - 1 ? 'border-b border-white border-opacity-20' : ''}`}>
@@ -151,7 +151,7 @@ export default function Home() {
               Follow @aotgoobots
             </a>
           </div>
-          
+
           <div className="text-sm opacity-75 font-game">
             <p>&copy; 2024 Attack of the Goobots. All rights reserved.</p>
             <p className="mt-2">Made with 🧡 for gamers everywhere</p>

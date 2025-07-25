@@ -79,10 +79,11 @@ export default function Home() {
             <img 
               src={framePath} 
               alt="Game Frame" 
-              className="absolute top-3/5 left-1/2 pointer-events-none"
+              className="absolute left-1/2 pointer-events-none"
               style={{ 
                 imageRendering: 'pixelated',
                 width: '480px',
+                top: '40%',
                 height: 'auto',
                 transform: 'translate(-50%, -50%) scale(2)',
                 transformOrigin: 'center'

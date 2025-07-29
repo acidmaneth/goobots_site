@@ -1,151 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attack of the Goobots</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-        }
+
+    <!-- Custom PreHead code is injected here -->
+    
+
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name ="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta charset="utf-8"/>
+
+        <!-- Builtin injector for disabling cache -->
+        <meta http-equiv="pragma" content="no-cache"/>
+
+        <!-- Set the title bar of the page -->
+        <title>Attack of the Goobots</title>
+
+        <!-- Custom PreStyle code is injected here -->
         
-        #game-container {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        #game-canvas {
-            max-width: 100%;
-            max-height: 100vh;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-        
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            #game-container {
-                height: 100vh;
-                width: 100vw;
+
+        <!-- Set the background colour of the document -->
+        <style>
+            body {
+                background: #0;
+                color: #cccccc;
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
             }
-            
-            #game-canvas {
+
+            canvas {
+                image-rendering: optimizeSpeed;
+                -webkit-interpolation-mode: nearest-neighbor;
+                -ms-touch-action: none;
+                touch-action: none;
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
+            }
+            :-webkit-full-screen #canvas {
                 width: 100%;
                 height: 100%;
-                object-fit: contain;
             }
-        }
+            :-webkit-full-screen {
+                width: 100%;
+                height: 100%;
+            }
+            
+            /* Custom Runner Styles */
+            div.gm4html5_div_class {
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
+            }
+            div.gm4html5_login {
+                padding: 20px;
+                position: absolute;
+                border: solid 2px #000000;
+                background-color: #404040;
+                color:#00ff00;
+                border-radius: 15px;
+                box-shadow: #101010 20px 20px 40px;
+            }
+            div.gm4html5_cancel_button {
+                float: right;
+            }
+            div.gm4html5_login_button {
+                float: left;
+            }
+            div.gm4html5_login_header {
+                text-align: center;
+            }
+            /* END - Custom Runner Styles */
+            
+        </style>
+
+        <!-- Custom PostStyle code is injected here -->
         
-        /* Loading screen */
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #7FFF00;
-            text-align: center;
-            z-index: 1000;
-        }
+
+        <!-- Builtin injector for injecting flurry analytics code -->
         
-        .loading.hidden {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <div id="game-container">
-        <div class="loading" id="loading">
-            <h2>Loading Attack of the Goobots...</h2>
-            <p>Please wait while the game loads...</p>
+    </head>
+
+    <!-- Custom PostHead code is injected here -->
+    
+
+    <!-- Custom PreBody code is injected here -->
+    
+
+    <body>
+        <div class="gm4html5_div_class" id="gm4html5_div_id">
+            
+            <!-- Builtin injector for splash screen -->
+            
+
+            <!-- Create the canvas element the game draws to -->
+            <canvas id="canvas" width="960" height="540" >
+                <p>Your browser doesn't support HTML5 canvas.</p>
+            </canvas>
         </div>
+
+        <!-- Run the game code -->
+        <script type="text/javascript" src="html5game/Attack of the Goobots.js?cachebust=1985173584"></script>
+
+        <!-- Builtin injector for injecting runner path -->
         
-        <!-- This is where the GameMaker game will be embedded -->
-        <!-- Replace this with the actual game files after export -->
-        <div id="game-placeholder" style="display: none;">
-            <canvas id="game-canvas" width="480" height="270"></canvas>
-        </div>
-    </div>
 
-    <script>
-        // Handle messages from parent window (website)
-        window.addEventListener('message', function(event) {
-            if (event.data.type === 'play') {
-                // Resume game
-                console.log('Game play command received');
-            } else if (event.data.type === 'pause') {
-                // Pause game
-                console.log('Game pause command received');
-            }
-        });
+        <script>window.onload = GameMaker_Init;</script>
 
-        // Hide loading screen when game is ready
-        function hideLoading() {
-            document.getElementById('loading').classList.add('hidden');
-        }
+        <!-- Builtin injector for injecting google analytics code -->
+        
 
-        // Show loading screen
-        function showLoading() {
-            document.getElementById('loading').classList.remove('hidden');
-        }
+    </body>
 
-        // Initialize game when GameMaker files are loaded
-        window.addEventListener('load', function() {
-            // This will be replaced with actual GameMaker initialization
-            setTimeout(hideLoading, 2000); // Temporary delay for demo
-        });
-
-        // Handle fullscreen requests
-        function requestFullscreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.webkitRequestFullscreen) {
-                document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) {
-                document.documentElement.msRequestFullscreen();
-            }
-        }
-
-        // Handle fullscreen exit
-        function exitFullscreen() {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-        }
-
-        // Mobile touch handling
-        document.addEventListener('touchstart', function(e) {
-            // Prevent default touch behavior that might interfere with game
-            e.preventDefault();
-        }, { passive: false });
-
-        // Handle orientation changes
-        window.addEventListener('orientationchange', function() {
-            // Recalculate game dimensions
-            setTimeout(function() {
-                const canvas = document.getElementById('game-canvas');
-                if (canvas) {
-                    // Adjust canvas size based on orientation
-                    const container = document.getElementById('game-container');
-                    const containerRect = container.getBoundingClientRect();
-                    canvas.width = containerRect.width;
-                    canvas.height = containerRect.height;
-                }
-            }, 100);
-        });
-    </script>
-</body>
+    <!-- Custom PostBody code is injected here -->
+    
 </html>

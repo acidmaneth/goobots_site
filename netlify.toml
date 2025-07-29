@@ -1,26 +1,31 @@
 [build]
-  publish = "dist"
-  command = "npm run build"
+  publish = "dist/public"
+  command = "npm run build:static"
 
 [build.environment]
   NODE_VERSION = "20"
 
+# Redirect game assets
 [[redirects]]
   from = "/game/*"
-  to = "/public/game/:splat"
+  to = "/game/:splat"
   status = 200
 
+# SPA routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Security headers for game files
 [[headers]]
   for = "/game/*"
   [headers.values]
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: data:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws: wss: data: blob:; worker-src 'self' blob: data:; child-src 'self' blob: data:; object-src 'self' data: blob:;"
     Cross-Origin-Embedder-Policy = "credentialless"
     Cross-Origin-Opener-Policy = "same-origin"
 
+# Cache control
 [[headers]]
   for = "/*.html"
   [headers.values]

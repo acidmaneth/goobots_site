@@ -64,53 +64,64 @@ export default function Home() {
       </header>
 
       {/* Game Demo */}
-      <main className="container mx-auto px-4 py-1">
+      <main className="container mx-auto px-4 py-2">
         <div className="flex justify-center mb-6">
           {showGame ? (
-            <div className="relative">
-              <GameEmbed 
-                gameUrl="/game/index.html" 
-                width={480} 
-                height={270} 
-              />
+            <div className="relative w-full max-w-4xl">
+              {/* Game container with direct iframe */}
+              <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+                <iframe
+                  src="/game/index.html"
+                  className="w-full h-full absolute inset-0"
+                  allow="fullscreen; autoplay; encrypted-media"
+                  allowFullScreen
+                  style={{ 
+                    width: '100%',
+                    height: '100%',
+                    border: 'none',
+                    margin: 0,
+                    padding: 0,
+                    imageRendering: 'pixelated',
+                    background: '#000000'
+                  }}
+                />
+              </div>
               
-              {/* Frame Image on top */}
+              {/* Frame Image overlay */}
               <img 
                 src={framePath} 
                 alt="Game Frame" 
-                className="absolute left-1/2 pointer-events-none"
+                className="absolute inset-0 w-full h-full pointer-events-none"
                 style={{ 
                   imageRendering: 'pixelated',
-                  width: '480px',
-                  height: '270px',
-                  top: '54%',
-                  transform: 'translate(-50%, -50%) scale(2)',
+                  objectFit: 'contain',
+                  transform: 'scale(1.97) translateY(1.9%)',
                   transformOrigin: 'center'
                 }}
               />
             </div>
           ) : (
-            <div className="relative border-4 border-black">
-              {/* Game Area - Black window below */}
-              <div className="bg-black w-[480px] h-[270px] flex items-center justify-center">
-                <div className="text-center text-game-green">
-                  <div className="text-4xl mb-2">🎮</div>
-                  <div className="text-sm font-medium">GAME LOADS HERE</div>
-                  <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
+            <div className="relative w-full max-w-4xl">
+              {/* Game placeholder */}
+              <div className="relative w-full bg-black" style={{ aspectRatio: '16/9' }}>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center text-game-green">
+                    <div className="text-4xl mb-2">🎮</div>
+                    <div className="text-sm font-medium">CLICK BUTTON TO PLAY GAME</div>
+                    <div className="text-xs opacity-75 mt-1">Game loads here</div>
+                  </div>
                 </div>
               </div>
 
-              {/* Frame Image on top - 200% scale with transform */}
+              {/* Frame Image overlay */}
               <img 
                 src={framePath} 
                 alt="Game Frame" 
-                className="absolute left-1/2 pointer-events-none"
+                className="absolute inset-0 w-full h-full pointer-events-none"
                 style={{ 
                   imageRendering: 'pixelated',
-                  width: '480px',
-                  height: '270px',
-                  top: '54%',
-                  transform: 'translate(-50%, -50%) scale(2)',
+                  objectFit: 'contain',
+                  transform: 'scale(1.97) translateY(1.9%)',
                   transformOrigin: 'center'
                 }}
               />

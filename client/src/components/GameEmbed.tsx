@@ -15,6 +15,9 @@ export default function GameEmbed({ gameUrl, width = 480, height = 270 }: GameEm
   const gameContainerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
+  // Use responsive sizing if width/height are 0
+  const isResponsive = width === 0 && height === 0;
+
   // Handle fullscreen toggle
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -56,8 +59,8 @@ export default function GameEmbed({ gameUrl, width = 480, height = 270 }: GameEm
 
   // Handle mobile touch events for fullscreen
   const handleTouchStart = (e: React.TouchEvent) => {
-    // Prevent default touch behavior that might interfere with game controls
-    e.preventDefault();
+    // Don't prevent default - let touch events pass through to game
+    // e.preventDefault();
   };
 
   return (
@@ -65,12 +68,23 @@ export default function GameEmbed({ gameUrl, width = 480, height = 270 }: GameEm
       {/* Game Container */}
       <div 
         ref={gameContainerRef}
-        className={`relative bg-black border-4 border-black overflow-hidden ${
+        className={`relative bg-black overflow-hidden ${
           isFullscreen ? 'game-embed-fullscreen' : 'game-embed-container'
         }`}
-        style={{ 
+        style={isResponsive ? {
+          position: isFullscreen ? 'fixed' : 'absolute',
+          top: '0',
+          left: '0',
+          width: isFullscreen ? '100vw' : '100%',
+          height: isFullscreen ? '100vh' : '100%',
+          zIndex: isFullscreen ? '9999' : 'auto'
+        } : { 
           width: isFullscreen ? '100vw' : `${width}px`, 
-          height: isFullscreen ? '100vh' : `${height}px` 
+          height: isFullscreen ? '100vh' : `${height}px`,
+          position: isFullscreen ? 'fixed' : 'relative',
+          top: isFullscreen ? '0' : 'auto',
+          left: isFullscreen ? '0' : 'auto',
+          zIndex: isFullscreen ? '9999' : 'auto'
         }}
         onTouchStart={handleTouchStart}
       >
@@ -88,13 +102,18 @@ export default function GameEmbed({ gameUrl, width = 480, height = 270 }: GameEm
         <iframe
           ref={iframeRef}
           src={gameUrl}
-          className="game-iframe"
+          className="game-iframe w-full h-full"
           allow="fullscreen; autoplay; encrypted-media"
           allowFullScreen
           onLoad={handleIframeLoad}
           style={{ 
-            aspectRatio: '16/9',
-            imageRendering: 'pixelated'
+            width: '100%',
+            height: '100%',
+            border: 'none',
+            margin: 0,
+            padding: 0,
+            imageRendering: 'pixelated',
+            background: '#000000'
           }}
         />
 
@@ -128,7 +147,7 @@ export default function GameEmbed({ gameUrl, width = 480, height = 270 }: GameEm
       </div>
 
       {/* Game Controls Info */}
-      {!isFullscreen && (
+      {!isFullscreen && !isResponsive && (
         <div className="mt-4 text-center text-sm text-white opacity-75">
           <p className="mb-2">
             <strong>Controls:</strong> Arrow keys to move, Spacebar to shoot

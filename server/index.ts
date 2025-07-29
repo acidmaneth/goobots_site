@@ -3,6 +3,17 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
+
+// Add CSP headers middleware for GameMaker HTML5 compatibility - MUST BE FIRST
+app.use((req, res, next) => {
+  // Set CSP headers to allow unsafe-eval for GameMaker HTML5 exports
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://replit.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws: wss: data:; worker-src 'self' blob: data:; child-src 'self' blob: data:;"
+  );
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -38,6 +49,15 @@ app.use((req, res, next) => {
 
 (async () => {
   const server = await registerRoutes(app);
+
+  // Add specific CSP headers for game files
+  app.use('/game', (req, res, next) => {
+    res.setHeader(
+      'Content-Security-Policy',
+      "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: data:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws: wss: data: blob:; worker-src 'self' blob: data:; child-src 'self' blob: data:;"
+    );
+    next();
+  });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

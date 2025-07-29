@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import logoPath from "@assets/AOTGLogo_1753405413377.png";
 import framePath from "@assets/game_frame.png";
+import GameEmbed from "@/components/GameEmbed";
 
 interface FAQItem {
   question: string;
@@ -35,14 +36,14 @@ const faqItems: FAQItem[] = [
 
 export default function Home() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [showGame, setShowGame] = useState(false);
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
   const startGame = () => {
-    // Game initialization logic would go here
-    console.log("Starting game demo...");
+    setShowGame(true);
   };
 
   return (
@@ -65,40 +66,74 @@ export default function Home() {
       {/* Game Demo */}
       <main className="container mx-auto px-4 py-1">
         <div className="flex justify-center mb-6">
-          <div className="relative border-4 border-black">
-            {/* Game Area - Black window below */}
-            <div className="bg-black w-[480px] h-[270px] flex items-center justify-center">
-              <div className="text-center text-game-green">
-                <div className="text-4xl mb-2">🎮</div>
-                <div className="text-sm font-medium">GAME LOADS HERE</div>
-                <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
-              </div>
+          {showGame ? (
+            <div className="relative">
+              <GameEmbed 
+                gameUrl="/game/index.html" 
+                width={480} 
+                height={270} 
+              />
+              
+              {/* Frame Image on top */}
+              <img 
+                src={framePath} 
+                alt="Game Frame" 
+                className="absolute left-1/2 pointer-events-none"
+                style={{ 
+                  imageRendering: 'pixelated',
+                  width: '480px',
+                  height: '270px',
+                  top: '54%',
+                  transform: 'translate(-50%, -50%) scale(2)',
+                  transformOrigin: 'center'
+                }}
+              />
             </div>
+          ) : (
+            <div className="relative border-4 border-black">
+              {/* Game Area - Black window below */}
+              <div className="bg-black w-[480px] h-[270px] flex items-center justify-center">
+                <div className="text-center text-game-green">
+                  <div className="text-4xl mb-2">🎮</div>
+                  <div className="text-sm font-medium">GAME LOADS HERE</div>
+                  <div className="text-xs opacity-75 mt-1">16:9 Aspect Ratio</div>
+                </div>
+              </div>
 
-            {/* Frame Image on top - 200% scale with transform */}
-            <img 
-              src={framePath} 
-              alt="Game Frame" 
-              className="absolute left-1/2 pointer-events-none"
-              style={{ 
-                imageRendering: 'pixelated',
-                width: '480px',
-                height: '270px',
-                top: '54%',
-                transform: 'translate(-50%, -50%) scale(2)',
-                transformOrigin: 'center'
-              }}
-            />
-          </div>
+              {/* Frame Image on top - 200% scale with transform */}
+              <img 
+                src={framePath} 
+                alt="Game Frame" 
+                className="absolute left-1/2 pointer-events-none"
+                style={{ 
+                  imageRendering: 'pixelated',
+                  width: '480px',
+                  height: '270px',
+                  top: '54%',
+                  transform: 'translate(-50%, -50%) scale(2)',
+                  transformOrigin: 'center'
+                }}
+              />
+            </div>
+          )}
         </div>
 
         <div className="text-center mb-8 mt-16">
-          <Button 
-            onClick={startGame}
-            className="bg-white text-game-orange px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg"
-          >
-            Start Game Demo
-          </Button>
+          {!showGame ? (
+            <Button 
+              onClick={startGame}
+              className="bg-white text-game-orange px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg"
+            >
+              Start Game Demo
+            </Button>
+          ) : (
+            <Button 
+              onClick={() => setShowGame(false)}
+              className="bg-white text-game-orange px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg"
+            >
+              Close Game
+            </Button>
+          )}
         </div>
       </main>
 

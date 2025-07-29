@@ -100,5 +100,53 @@
     .game-frame {
       max-width: calc(100vw - 2rem);
     }
+    
+    /* Mobile game embed styles */
+    .game-embed-container {
+      width: calc(100vw - 2rem) !important;
+      height: calc((100vw - 2rem) * 9 / 16) !important;
+      max-width: 480px;
+      max-height: 270px;
+    }
+    
+    .game-embed-fullscreen {
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+    
+    /* Hide controls on mobile when in fullscreen */
+    .game-embed-fullscreen .game-controls {
+      display: none;
+    }
+    
+    /* Mobile touch-friendly controls */
+    .game-controls button {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+  
+  /* Ensure game iframe is responsive */
+  .game-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Loading animation for game */
+  .game-loading {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: .5;
+    }
   }
 }

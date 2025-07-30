@@ -200,3 +200,41 @@
   max-width: none !important;
   max-height: none !important;
 }
+
+/* Fullscreen button styles */
+.fullscreen-button {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 30;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.fullscreen-button:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.05);
+}
+
+.fullscreen-button:active {
+  transform: scale(0.95);
+}
+
+/* Ensure fullscreen button is always visible */
+#game-container:fullscreen .fullscreen-button {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 2147483647 !important;
+}
+
+/* Hide frame overlay in fullscreen */
+#game-container:fullscreen .frame-overlay {
+  display: none !important;
+}

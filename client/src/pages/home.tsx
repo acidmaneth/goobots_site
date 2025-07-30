@@ -14,15 +14,15 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
   {
     question: "What is Attack of the Goobots?",
-    answer: "Attack of the Goobots is an action-packed adventure game where players battle against an invasion of quirky robotic creatures called Goobots. Featuring fast-paced gameplay, unique power-ups, and challenging levels."
+    answer: "Attack of the Goobots is an action-packed, scrolling-shooter, adventure game featuring the Mooncats from the collection of ACIDMAN. The game focuses on building around Mooncats, its lore, and Web3 Culture."
   },
   {
-    question: "How do I play the demo?",
-    answer: "Simply click the \"Start Game Demo\" button above to begin playing. The demo runs directly in your browser - no downloads required! Use arrow keys to move and spacebar to shoot."
+    question: "How do I play the demo? Is it Free to Play?",
+    answer: "Simply click the \"Start Game Demo\" button above to begin playing! The demo runs directly in your browser - no downloads required, and is totally free to play! Enable the Touch controls in the MainMenu and go fullscreen for the best experience. ."
   },
   {
     question: "When will the full game be available?",
-    answer: "The full version of Attack of the Goobots is currently in development. Follow us on social media for the latest updates and release announcements!"
+    answer: "TBD. The full version of Attack of the Goobots is in development by ACIDMAN alone, so please bear with slow development. Follow us on social media for the latest updates and release announcements!"
   },
   {
     question: "What platforms will the game support?",
@@ -30,7 +30,7 @@ const faqItems: FAQItem[] = [
   },
   {
     question: "Can I provide feedback on the demo?",
-    answer: "Absolutely! We welcome all feedback and suggestions. You can reach out to us through our social media channels or contact forms. Your input helps make the game better!"
+    answer: "Absolutely! We welcome all feedback and suggestions. You can reach out to us through our social media channels or email at aotgoobots@gmail.com. Your input helps make the game better!"
   }
 ];
 

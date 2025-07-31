@@ -14,22 +14,26 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
   {
     question: "What is Attack of the Goobots?",
-    answer: "Attack of the Goobots is an action-packed, scrolling-shooter, adventure game featuring the Mooncats from the collection of ACIDMAN. The game focuses on building around Mooncats, its lore, and Web3 Culture."
+    answer: "Attack of the Goobots is an action-packed, scrolling-shooter, adventure game featuring the Mooncats from the collection of ACIDMAN. The game focuses on building around the Mooncats collection, its lore, and Web3 Culture."
+  },
+  {
+    question: "What is the story about?",
+    answer: "The year was 1BM (Before Merge)... Mooncats #18074 and #18549, cats from the same litter, are making their way to Earth. As they leave their lunar location, a vicious attack on their convoy initiates. Goobots - the gross, rusty, and full of fud aliens from the depths of the Ether - intercepts the Mooncats in the middle of their journey. 'Go, now!' said Mooncat-18074, as his brother watched him fight off the enemy. Years after The Merge, they will be seeing each other again..."
   },
   {
     question: "How do I play the demo? Is it Free to Play?",
-    answer: "Simply click the \"Start Game Demo\" button above to begin playing! The demo runs directly in your browser - no downloads required, and is totally free to play! Enable the Touch controls in the MainMenu and go fullscreen for the best experience. ."
+    answer: "Simply click the \"Start Game Demo\" button above to begin playing! The demo runs directly in your browser - no downloads required, and is totally free to play! Enable the Touch controls in the MainMenu and go fullscreen for mobile (currently buggy) or use WASD and spacebar on desktop."
   },
   {
     question: "When will the full game be available?",
-    answer: "TBD. The full version of Attack of the Goobots is in development by ACIDMAN alone, so please bear with slow development. Follow us on social media for the latest updates and release announcements!"
+    answer: "TBD. The full version of Attack of the Goobots is a solo-project by ACIDMAN (hopefully, just for now), so please bear with slow development. Follow us on social media for the latest updates and release announcements!"
   },
   {
     question: "What platforms will the game support?",
-    answer: "Attack of the Goobots is being developed for web browsers initially, with plans for mobile and desktop versions. The game is designed to be accessible across multiple platforms."
+    answer: "The Single-Player Attack of the Goobots is planned for mobile and console versions. The game is currently playable on web-browsers to explore options for Web3-gaming playable on any device."
   },
   {
-    question: "Can I provide feedback on the demo?",
+    question: "Can I provide feedback on the demo? How can I get in touch?",
     answer: "Absolutely! We welcome all feedback and suggestions. You can reach out to us through our social media channels or email at aotgoobots@gmail.com. Your input helps make the game better!"
   }
 ];

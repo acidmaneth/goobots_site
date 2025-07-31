@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -37,19 +37,56 @@ const faqItems: FAQItem[] = [
 export default function Home() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [showGame, setShowGame] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Track fullscreen state
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
   const startGame = () => {
+    console.log('Starting game...');
     setShowGame(true);
+    
+    // Add a small delay to ensure the iframe loads properly
+    setTimeout(() => {
+      const iframe = document.querySelector('iframe');
+      const gameContainer = document.getElementById('game-container');
+      const frameOverlay = document.querySelector('.frame-overlay');
+      
+      console.log('=== DEBUG INFO ===');
+      console.log('Iframe found:', iframe);
+      console.log('Iframe src:', iframe?.src);
+      console.log('Iframe dimensions:', iframe?.offsetWidth, 'x', iframe?.offsetHeight);
+      console.log('Game container:', gameContainer);
+      console.log('Frame overlay:', frameOverlay);
+      console.log('Show game state:', showGame);
+      
+      // Check for multiple iframes
+      const allIframes = document.querySelectorAll('iframe');
+      console.log('Total iframes found:', allIframes.length);
+      
+      // Check for placeholder elements
+      const placeholders = document.querySelectorAll('.text-game-green');
+      console.log('Placeholder elements found:', placeholders.length);
+      
+      console.log('=== END DEBUG ===');
+    }, 1000);
   };
 
   return (
     <div className="min-h-screen bg-game-orange text-white">
       {/* Header */}
-      <header className="container mx-auto px-4 pt-4 pb-2 text-center">
+      <header className="container mx-auto px-4 pt-8 pb-4 text-center">
         <div className="mb-0">
           <img 
             src={logoPath} 
@@ -58,22 +95,22 @@ export default function Home() {
             style={{ imageRendering: 'pixelated' }}
           />
         </div>
-        <p className="text-lg opacity-90 max-w-2xl mx-auto mb-6 pt-3" style={{ fontFamily: '"Courier New", "Monaco", "Menlo", "Consolas", monospace', fontWeight: 'bold', letterSpacing: '1px', imageRendering: 'pixelated' }}>
+        <p className="text-lg opacity-90 max-w-2xl mx-auto mb-8 pt-3" style={{ fontFamily: '"Courier New", "Monaco", "Menlo", "Consolas", monospace', fontWeight: 'bold', letterSpacing: '1px', imageRendering: 'pixelated' }}>
           A Mooncat Rescue Story
         </p>
       </header>
 
       {/* Game Demo */}
-      <main className="container mx-auto px-4 py-2">
-        <div className="flex justify-center mb-6">
+      <main className="container mx-auto px-4 py-4" style={{ marginTop: '3rem' }}>
+        <div className="flex justify-center mb-8">
           {showGame ? (
-            <div className="relative w-full max-w-4xl">
+            <div className="relative w-full max-w-4xl game-active" id="game-container">
               {/* Game container with direct iframe */}
-              <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+              <div className="relative w-full" style={{ aspectRatio: '16/9', transform: 'translateY(-4.2%)' }}>
                 <iframe
                   src="/game/index.html"
                   className="w-full h-full absolute inset-0"
-                  allow="fullscreen; autoplay; encrypted-media"
+                  allow="fullscreen; autoplay; encrypted-media; microphone; camera"
                   allowFullScreen
                   style={{ 
                     width: '100%',
@@ -82,28 +119,81 @@ export default function Home() {
                     margin: 0,
                     padding: 0,
                     imageRendering: 'pixelated',
-                    background: '#000000'
+                    background: '#000000',
+                    display: 'block',
+                    zIndex: 1
+                  }}
+                  onLoad={() => {
+                    console.log('Game iframe loaded successfully');
+                    console.log('Iframe dimensions:', document.querySelector('iframe')?.offsetWidth, 'x', document.querySelector('iframe')?.offsetHeight);
+                  }}
+                  onError={(e) => {
+                    console.error('Game iframe error:', e);
+                    console.error('Iframe src:', document.querySelector('iframe')?.src);
                   }}
                 />
+                
+                {/* Fullscreen Button */}
+                <button
+                  onClick={() => {
+                    const gameContainer = document.getElementById('game-container');
+                    if (gameContainer) {
+                      if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                      } else {
+                        gameContainer.requestFullscreen();
+                      }
+                    }
+                  }}
+                  className="absolute bottom-2 right-2 bg-black bg-opacity-60 hover:bg-opacity-80 text-white p-2 rounded transition-all duration-200 z-10 group"
+                  title="Toggle Fullscreen"
+                >
+                  <svg 
+                    width="20" 
+                    height="20" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    className="transition-transform duration-200 group-hover:scale-110"
+                  >
+                    {isFullscreen ? (
+                      // Exit fullscreen icon
+                      <>
+                        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+                      </>
+                    ) : (
+                      // Enter fullscreen icon
+                      <>
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 1 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                      </>
+                    )}
+                  </svg>
+                </button>
               </div>
               
-              {/* Frame Image overlay */}
+              {/* Frame Image overlay - simplified 2x scaling */}
               <img 
                 src={framePath} 
                 alt="Game Frame" 
-                className="absolute inset-0 w-full h-full pointer-events-none"
+                className="absolute inset-0 w-full h-full pointer-events-none frame-overlay"
                 style={{ 
                   imageRendering: 'pixelated',
                   objectFit: 'contain',
-                  transform: 'scale(1.97) translateY(1.9%)',
-                  transformOrigin: 'center'
+                  transform: 'scale(2.0)',
+                  transformOrigin: 'center',
+                  zIndex: 2,
+                  pointerEvents: 'none'
                 }}
               />
             </div>
           ) : (
             <div className="relative w-full max-w-4xl">
               {/* Game placeholder */}
-              <div className="relative w-full bg-black" style={{ aspectRatio: '16/9' }}>
+                          <div className="relative w-full" style={{ aspectRatio: '16/9', transform: 'translateY(-4.2%)' }}>
+              <div className="relative w-full bg-black h-full">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-game-green">
                     <div className="text-4xl mb-2">🎮</div>
@@ -112,6 +202,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
 
               {/* Frame Image overlay */}
               <img 
@@ -121,7 +212,7 @@ export default function Home() {
                 style={{ 
                   imageRendering: 'pixelated',
                   objectFit: 'contain',
-                  transform: 'scale(1.97) translateY(1.9%)',
+                  transform: 'scale(2.0)',
                   transformOrigin: 'center'
                 }}
               />
@@ -129,7 +220,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="text-center mb-8 mt-16">
+        <div className="text-center mb-6 mt-20">
           {!showGame ? (
             <Button 
               onClick={startGame}

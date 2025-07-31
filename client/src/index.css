@@ -124,6 +124,26 @@
       min-width: 44px;
       min-height: 44px;
     }
+    
+    /* Mobile iframe optimizations */
+    iframe {
+      -webkit-overflow-scrolling: touch;
+      overflow: hidden;
+    }
+    
+    /* Ensure game container works on mobile */
+    #game-container {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 100vw !important;
+    }
+    
+    /* Mobile fullscreen button positioning */
+    .fullscreen-button {
+      bottom: 16px !important;
+      right: 16px !important;
+      padding: 12px !important;
+    }
   }
   
   /* Ensure game iframe is responsive */
@@ -238,3 +258,125 @@
 #game-container:fullscreen .frame-overlay {
   display: none !important;
 }
+
+/* Ensure frame overlay is always on top */
+.frame-overlay {
+  z-index: 10 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Ensure iframe is below frame overlay */
+#game-container iframe {
+  z-index: 1 !important;
+  position: relative !important;
+}
+
+/* Ensure placeholder is hidden when game is active */
+.game-active .text-game-green {
+  display: none !important;
+}
+
+/* Mobile-specific frame improvements */
+@media (max-width: 768px) {
+  .frame-overlay {
+    z-index: 15 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    /* Simplified 2x scaling for all screen sizes */
+    transform: scale(2.0) !important;
+    transform-origin: center !important;
+    object-fit: contain !important;
+  }
+  
+  #game-container iframe {
+    z-index: 1 !important;
+    position: relative !important;
+  }
+  
+  /* Android-specific frame fixes */
+  #game-container {
+    position: relative !important;
+    overflow: hidden !important;
+  }
+}
+
+/* Fullscreen container improvements */
+#game-container:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  background: #000000 !important;
+  z-index: 2147483646 !important;
+}
+
+#game-container:fullscreen iframe {
+  width: 100vw !important;
+  height: 100vh !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+    /* Mobile game container improvements */
+    @media (max-width: 768px) {
+      #game-container {
+        width: 100% !important;
+        max-width: 100vw !important;
+        height: auto !important;
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+      
+      #game-container > div {
+        aspect-ratio: 16/9 !important;
+      }
+      
+      #game-container iframe {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 300px;
+        border: none;
+        background: #000000;
+        display: block;
+        position: relative;
+        z-index: 1;
+        /* Mobile iframe improvements */
+        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
+      }
+      
+      /* Mobile fullscreen improvements */
+      #game-container:fullscreen {
+        background: #000000 !important;
+        overflow: hidden !important;
+      }
+      
+      #game-container:fullscreen iframe {
+        width: 100vw !important;
+        height: 100vh !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        transform: none;
+      }
+      
+      /* Ensure frame doesn't interfere on mobile */
+      .frame-overlay {
+        pointer-events: none !important;
+        z-index: 2 !important;
+      }
+    }

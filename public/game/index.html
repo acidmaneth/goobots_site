@@ -47,8 +47,8 @@
             canvas {
                 image-rendering: optimizeSpeed;
                 -webkit-interpolation-mode: nearest-neighbor;
-                -ms-touch-action: none;
-                touch-action: none;
+                -ms-touch-action: manipulation;
+                touch-action: manipulation;
                 margin: 0px;
                 padding: 0px;
                 border: 0px;
@@ -90,6 +90,23 @@
             :-webkit-full-screen {
                 width: 100%;
                 height: 100%;
+            }
+            
+            /* Comprehensive fullscreen fixes for multi-touch */
+            canvas:fullscreen,
+            canvas:-webkit-full-screen,
+            canvas:-moz-full-screen,
+            canvas:-ms-fullscreen {
+                width: 100vw !important;
+                height: 100vh !important;
+                object-fit: contain !important;
+                object-position: center !important;
+                /* Ensure touch events work properly */
+                touch-action: manipulation !important;
+                -ms-touch-action: manipulation !important;
+                /* Maintain coordinate system */
+                image-rendering: optimizeSpeed !important;
+                -webkit-interpolation-mode: nearest-neighbor !important;
             }
             
             /* Custom Runner Styles */
@@ -317,11 +334,17 @@
             console.log('DOM loaded');
           });
           
-          // Mobile touch event handling
+          // Mobile touch event handling - safe multi-touch support
           document.addEventListener('touchstart', function(e) {
             // Allow all touch events to pass through to the game
             console.log('Touch start detected on:', e.target.tagName);
-            console.log('Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
+            console.log('Number of touches:', e.touches.length);
+            console.log('Fullscreen mode:', !!document.fullscreenElement);
+            
+            // Log all touch points for multi-touch debugging
+            for (let i = 0; i < e.touches.length; i++) {
+              console.log('Touch ' + i + ' coordinates:', e.touches[i].clientX, e.touches[i].clientY);
+            }
             
             // Log canvas info for coordinate debugging
             const canvas = document.getElementById('canvas');
@@ -338,7 +361,13 @@
           document.addEventListener('touchmove', function(e) {
             // Allow touch move events for joystick controls
             console.log('Touch move detected');
-            console.log('Touch coordinates:', e.touches[0].clientX, e.touches[0].clientY);
+            console.log('Number of touches:', e.touches.length);
+            console.log('Fullscreen mode:', !!document.fullscreenElement);
+            
+            // Log all touch points for multi-touch debugging
+            for (let i = 0; i < e.touches.length; i++) {
+              console.log('Touch ' + i + ' move coordinates:', e.touches[i].clientX, e.touches[i].clientY);
+            }
             // Don't prevent default to allow multiple touch points
           }, { passive: true });
           
@@ -348,18 +377,108 @@
             // Don't prevent default to allow multiple touch points
           }, { passive: true });
           
-          // Fix fullscreen touch coordinate issues
+          // Fix fullscreen touch coordinate issues - comprehensive solution
+          let fullscreenScaleX = 1;
+          let fullscreenScaleY = 1;
+          let fullscreenOffsetX = 0;
+          let fullscreenOffsetY = 0;
+          
+          function updateFullscreenCoordinates() {
+            const canvas = document.getElementById('canvas');
+            if (!canvas) return;
+            
+            if (document.fullscreenElement) {
+              // In fullscreen mode - calculate coordinate transformation
+              const canvasRect = canvas.getBoundingClientRect();
+              const gameWidth = 960; // Your game's internal width
+              const gameHeight = 540; // Your game's internal height
+              
+              fullscreenScaleX = canvasRect.width / gameWidth;
+              fullscreenScaleY = canvasRect.height / gameHeight;
+              fullscreenOffsetX = canvasRect.left;
+              fullscreenOffsetY = canvasRect.top;
+              
+              // Update global variables for GameMaker access
+              window.GMFullscreenScaleX = fullscreenScaleX;
+              window.GMFullscreenScaleY = fullscreenScaleY;
+              window.GMFullscreenOffsetX = fullscreenOffsetX;
+              window.GMFullscreenOffsetY = fullscreenOffsetY;
+              
+              console.log('🎮 Fullscreen coordinate mapping:', {
+                scaleX: fullscreenScaleX,
+                scaleY: fullscreenScaleY,
+                offsetX: fullscreenOffsetX,
+                offsetY: fullscreenOffsetY,
+                canvasRect: canvasRect
+              });
+            } else {
+              // Normal mode - reset transformations
+              fullscreenScaleX = 1;
+              fullscreenScaleY = 1;
+              fullscreenOffsetX = 0;
+              fullscreenOffsetY = 0;
+              
+              // Update global variables for GameMaker access
+              window.GMFullscreenScaleX = 1;
+              window.GMFullscreenScaleY = 1;
+              window.GMFullscreenOffsetX = 0;
+              window.GMFullscreenOffsetY = 0;
+            }
+          }
+          
+          // Global coordinate transformation variables for GameMaker
+          window.GMFullscreenScaleX = 1;
+          window.GMFullscreenScaleY = 1;
+          window.GMFullscreenOffsetX = 0;
+          window.GMFullscreenOffsetY = 0;
+          
+          // Expose coordinate transformation function to GameMaker
+          window.transformGameCoordinates = function(x, y) {
+            if (!document.fullscreenElement) {
+              return { x: x, y: y };
+            }
+            
+            // Transform screen coordinates to game coordinates
+            const gameX = (x - window.GMFullscreenOffsetX) / window.GMFullscreenScaleX;
+            const gameY = (y - window.GMFullscreenOffsetY) / window.GMFullscreenScaleY;
+            
+            return { x: gameX, y: gameY };
+          };
+          
           document.addEventListener('fullscreenchange', function() {
             if (document.fullscreenElement) {
-              console.log('Entered fullscreen mode');
-              // Force canvas to recalculate touch coordinates
+              console.log('Entered fullscreen mode - applying multi-touch fixes');
+              
+              // Force canvas to proper size for coordinate consistency
               const canvas = document.getElementById('canvas');
               if (canvas) {
-                canvas.style.transform = 'translateZ(0)';
-                canvas.style.webkitTransform = 'translateZ(0)';
+                // Force browser to recalculate touch coordinates
+                canvas.style.display = 'none';
+                canvas.offsetHeight; // Trigger reflow
+                canvas.style.display = 'block';
+                
+                // Apply specific fullscreen styles
+                canvas.style.touchAction = 'manipulation';
+                canvas.style.msTouchAction = 'manipulation';
+                canvas.style.objectFit = 'contain';
+                canvas.style.objectPosition = 'center';
+                
+                console.log('✅ Applied fullscreen multi-touch fixes');
               }
+              
+              setTimeout(updateFullscreenCoordinates, 100); // Small delay for layout to settle
             } else {
-              console.log('Exited fullscreen mode');
+              console.log('Exited fullscreen mode - resetting coordinates');
+              
+              // Remove fullscreen-specific styles
+              const canvas = document.getElementById('canvas');
+              if (canvas) {
+                canvas.style.objectFit = '';
+                canvas.style.objectPosition = '';
+                console.log('✅ Removed fullscreen styles');
+              }
+              
+              updateFullscreenCoordinates();
             }
           });
           

@@ -93,7 +93,7 @@
   }
   
   .game-area {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16/9;
   }
   
   @media (max-width: 640px) {
@@ -259,15 +259,33 @@
   display: none !important;
 }
 
-/* Ensure frame overlay is always on top */
+/* Frame overlay - completely independent of game container */
 .frame-overlay {
-  z-index: 10 !important;
+  z-index: 20 !important;
   pointer-events: none !important;
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
+  /* Independent scaling - 2x the game size */
+  transform: scale(2.0) !important;
+  transform-origin: center !important;
+  object-fit: contain !important;
+  /* Ensure frame is not constrained by container */
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* Game container - center within frame */
+#game-container {
+  position: relative !important;
+  /* Center the game within the frame */
+  margin: 0 auto !important;
+  /* Ensure proper alignment with frame */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Ensure iframe is below frame overlay */
@@ -283,26 +301,14 @@
 
 /* Mobile-specific frame improvements */
 @media (max-width: 768px) {
-  .frame-overlay {
-    z-index: 15 !important;
-    pointer-events: none !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    /* Simplified 2x scaling for all screen sizes */
-    transform: scale(2.0) !important;
-    transform-origin: center !important;
-    object-fit: contain !important;
-  }
+  /* Frame overlay rules removed - using global rules instead */
   
   #game-container iframe {
     z-index: 1 !important;
     position: relative !important;
   }
   
-  /* Android-specific frame fixes */
+  /* Game container - clip frame to container bounds */
   #game-container {
     position: relative !important;
     overflow: hidden !important;
@@ -374,9 +380,5 @@
         transform: none;
       }
       
-      /* Ensure frame doesn't interfere on mobile */
-      .frame-overlay {
-        pointer-events: none !important;
-        z-index: 2 !important;
-      }
+      /* Frame overlay uses global rules - no mobile-specific overrides */
     }

@@ -108,9 +108,28 @@ export default function Home() {
       <main className="container mx-auto px-4 py-4" style={{ marginTop: '3rem' }}>
         <div className="flex justify-center mb-8">
           {showGame ? (
-            <div className="relative w-full max-w-4xl game-active" id="game-container">
-              {/* Game container with direct iframe */}
-              <div className="relative w-full" style={{ aspectRatio: '16/9', transform: 'translateY(-4.2%)' }}>
+            <div className="relative w-full max-w-4xl game-active">
+              {/* Frame Image overlay - COMPLETELY OUTSIDE game container */}
+              <img 
+                src={framePath} 
+                alt="Game Frame" 
+                className="absolute pointer-events-none frame-overlay"
+                style={{ 
+                  imageRendering: 'pixelated',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  transform: 'scale(2.0)',
+                  transformOrigin: 'center',
+                  zIndex: 2,
+                  pointerEvents: 'none',
+                  top: '0',
+                  left: '0'
+                }}
+              />
+              
+              {/* Game container with direct iframe - FORCED 16:9 aspect ratio */}
+              <div className="relative w-full" id="game-container" style={{ aspectRatio: '16/9', transform: 'translateY(-4%)' }}>
                 <iframe
                   src="/game/index.html"
                   className="w-full h-full absolute inset-0"
@@ -177,26 +196,11 @@ export default function Home() {
                   </svg>
                 </button>
               </div>
-              
-              {/* Frame Image overlay - simplified 2x scaling */}
-              <img 
-                src={framePath} 
-                alt="Game Frame" 
-                className="absolute inset-0 w-full h-full pointer-events-none frame-overlay"
-                style={{ 
-                  imageRendering: 'pixelated',
-                  objectFit: 'contain',
-                  transform: 'scale(2.0)',
-                  transformOrigin: 'center',
-                  zIndex: 2,
-                  pointerEvents: 'none'
-                }}
-              />
             </div>
           ) : (
             <div className="relative w-full max-w-4xl">
               {/* Game placeholder */}
-                          <div className="relative w-full" style={{ aspectRatio: '16/9', transform: 'translateY(-4.2%)' }}>
+                          <div className="relative w-full" style={{ aspectRatio: '16/9', transform: 'translateY(-4%)' }}>
               <div className="relative w-full bg-black h-full">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-game-green">

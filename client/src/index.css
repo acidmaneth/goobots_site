@@ -315,7 +315,7 @@
   }
 }
 
-/* Fullscreen container improvements */
+/* Fullscreen container improvements - maintain 16:9 aspect ratio */
 #game-container:fullscreen {
   width: 100vw !important;
   height: 100vh !important;
@@ -324,14 +324,21 @@
   left: 0 !important;
   background: #000000 !important;
   z-index: 2147483646 !important;
+  /* Center the game container */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 #game-container:fullscreen iframe {
+  /* Scale to device width while maintaining 16:9 aspect ratio */
   width: 100vw !important;
-  height: 100vh !important;
+  height: auto !important;
+  aspect-ratio: 16/9 !important;
   position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
 }
 
     /* Mobile game container improvements */
@@ -364,20 +371,26 @@
         overflow: hidden;
       }
       
-      /* Mobile fullscreen improvements */
+      /* Mobile fullscreen improvements - maintain 16:9 aspect ratio */
       #game-container:fullscreen {
         background: #000000 !important;
         overflow: hidden !important;
+        /* Center the game container */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
       }
       
       #game-container:fullscreen iframe {
+        /* Scale to device width while maintaining 16:9 aspect ratio */
         width: 100vw !important;
-        height: 100vh !important;
-        position: absolute;
-        top: 0;
-        left: 0;
+        height: auto !important;
+        aspect-ratio: 16/9 !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
         z-index: 1;
-        transform: none;
       }
       
       /* Frame overlay uses global rules - no mobile-specific overrides */

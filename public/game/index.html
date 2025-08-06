@@ -232,6 +232,273 @@
         <!-- Builtin injector for injecting runner path -->
         
 
+        <script>
+          // Debug logging for mobile issues
+          console.log('Game HTML loaded');
+          console.log('Viewport:', window.innerWidth, 'x', window.innerHeight);
+          console.log('User agent:', navigator.userAgent);
+          console.log('Canvas element:', document.getElementById('canvas'));
+          
+          // Mobile-specific initialization
+          function initializeGame() {
+            console.log('Initializing game...');
+            console.log('Platform:', navigator.platform);
+            console.log('User Agent:', navigator.userAgent);
+            
+            // Configure canvas for mobile WebGL compatibility
+            const canvas = document.getElementById('canvas');
+            if (canvas && (navigator.userAgent.includes('Mobile') || navigator.userAgent.includes('Android'))) {
+                console.log('📱 Configuring canvas for mobile...');
+                
+                // Keep original game resolution for larger textures
+                console.log('📱 Maintaining game resolution: 960x540 for high-res textures');
+                
+                // Configure WebGL context for mobile compatibility with larger textures
+                try {
+                    const gl = canvas.getContext('webgl', {
+                        antialias: false,
+                        alpha: false,
+                        premultipliedAlpha: false,
+                        preserveDrawingBuffer: false,
+                        powerPreference: 'high-performance'
+                    });
+                    if (gl) {
+                        console.log('📱 WebGL context configured for mobile');
+                        const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+                        console.log('📱 Max texture size supported:', maxTextureSize);
+                        
+                        // Check if we can handle larger textures
+                        if (maxTextureSize >= 2048) {
+                            console.log('📱 Device supports high-resolution textures');
+                        } else {
+                            console.log('📱 Device has limited texture support, may need optimization');
+                        }
+                    }
+                } catch (e) {
+                    console.log('📱 WebGL config failed:', e);
+                }
+            }
+            
+            console.log('Canvas element:', document.getElementById('canvas'));
+            
+            try {
+              if (typeof GameMaker_Init === 'function') {
+                GameMaker_Init();
+                console.log('Game initialized successfully');
+                
+                // Check if canvas is visible and diagnose positioning
+                setTimeout(() => {
+                  const canvas = document.getElementById('canvas');
+                  if (canvas) {
+                    console.log('Canvas dimensions:', canvas.offsetWidth, 'x', canvas.offsetHeight);
+                    console.log('Canvas style:', canvas.style.display, canvas.style.visibility);
+                    console.log('Canvas computed style:', window.getComputedStyle(canvas).display);
+                    console.log('Canvas position:', canvas.offsetLeft, canvas.offsetTop);
+                    console.log('Canvas computed position:', window.getComputedStyle(canvas).left, window.getComputedStyle(canvas).top);
+                    console.log('Canvas transform:', window.getComputedStyle(canvas).transform);
+                    
+                    // Force canvas positioning fix for Android
+                    if (canvas.offsetLeft < 0) {
+                      console.log('🔧 FIXING: Canvas has negative position, resetting...');
+                      canvas.style.position = 'relative';
+                      canvas.style.left = '0px';
+                      canvas.style.top = '0px';
+                      canvas.style.transform = 'none';
+                      canvas.style.margin = '0px auto';
+                    }
+                  }
+                  
+                  // Check container dimensions
+                  const container = document.querySelector('.gm4html5_div_class');
+                  if (container) {
+                    console.log('Container dimensions:', container.offsetWidth, 'x', container.offsetHeight);
+                    console.log('Container position:', container.offsetLeft, container.offsetTop);
+                  }
+                }, 1000);
+              } else {
+                console.error('GameMaker_Init function not found');
+              }
+            } catch (error) {
+              console.error('Game initialization error:', error);
+            }
+          }
+          
+          window.onload = function() {
+            console.log('Window loaded, initializing game...');
+            // Small delay for mobile to ensure everything is ready
+            setTimeout(initializeGame, 100);
+          };
+          
+          // Additional mobile event listeners
+          document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+          });
+          
+          // Mobile touch event handling - safe multi-touch support
+          document.addEventListener('touchstart', function(e) {
+            // Allow all touch events to pass through to the game
+            console.log('Touch start detected on:', e.target.tagName);
+            console.log('Number of touches:', e.touches.length);
+            console.log('Fullscreen mode:', !!document.fullscreenElement);
+            
+            // Log all touch points for multi-touch debugging
+            for (let i = 0; i < e.touches.length; i++) {
+              console.log('Touch ' + i + ' coordinates:', e.touches[i].clientX, e.touches[i].clientY);
+            }
+            
+            // Log canvas info for coordinate debugging
+            const canvas = document.getElementById('canvas');
+            if (canvas) {
+              const rect = canvas.getBoundingClientRect();
+              console.log('Canvas rect:', rect.left, rect.top, rect.width, rect.height);
+              console.log('Touch relative to canvas:', 
+                e.touches[0].clientX - rect.left, 
+                e.touches[0].clientY - rect.top);
+            }
+            // Don't prevent default to allow multiple touch points
+          }, { passive: true });
+          
+          document.addEventListener('touchmove', function(e) {
+            // Allow touch move events for joystick controls
+            console.log('Touch move detected');
+            console.log('Number of touches:', e.touches.length);
+            console.log('Fullscreen mode:', !!document.fullscreenElement);
+            
+            // Log all touch points for multi-touch debugging
+            for (let i = 0; i < e.touches.length; i++) {
+              console.log('Touch ' + i + ' move coordinates:', e.touches[i].clientX, e.touches[i].clientY);
+            }
+            // Don't prevent default to allow multiple touch points
+          }, { passive: true });
+          
+          document.addEventListener('touchend', function(e) {
+            // Handle touch end events
+            console.log('Touch end detected');
+            // Don't prevent default to allow multiple touch points
+          }, { passive: true });
+          
+          // Fix fullscreen touch coordinate issues - comprehensive solution
+          let fullscreenScaleX = 1;
+          let fullscreenScaleY = 1;
+          let fullscreenOffsetX = 0;
+          let fullscreenOffsetY = 0;
+          
+          function updateFullscreenCoordinates() {
+            const canvas = document.getElementById('canvas');
+            if (!canvas) return;
+            
+            if (document.fullscreenElement) {
+              // In fullscreen mode - calculate coordinate transformation
+              const canvasRect = canvas.getBoundingClientRect();
+              const gameWidth = 960; // Your game's internal width
+              const gameHeight = 540; // Your game's internal height
+              
+              fullscreenScaleX = canvasRect.width / gameWidth;
+              fullscreenScaleY = canvasRect.height / gameHeight;
+              fullscreenOffsetX = canvasRect.left;
+              fullscreenOffsetY = canvasRect.top;
+              
+              // Update global variables for GameMaker access
+              window.GMFullscreenScaleX = fullscreenScaleX;
+              window.GMFullscreenScaleY = fullscreenScaleY;
+              window.GMFullscreenOffsetX = fullscreenOffsetX;
+              window.GMFullscreenOffsetY = fullscreenOffsetY;
+              
+              console.log('🎮 Fullscreen coordinate mapping:', {
+                scaleX: fullscreenScaleX,
+                scaleY: fullscreenScaleY,
+                offsetX: fullscreenOffsetX,
+                offsetY: fullscreenOffsetY,
+                canvasRect: canvasRect
+              });
+            } else {
+              // Normal mode - reset transformations
+              fullscreenScaleX = 1;
+              fullscreenScaleY = 1;
+              fullscreenOffsetX = 0;
+              fullscreenOffsetY = 0;
+              
+              // Update global variables for GameMaker access
+              window.GMFullscreenScaleX = 1;
+              window.GMFullscreenScaleY = 1;
+              window.GMFullscreenOffsetX = 0;
+              window.GMFullscreenOffsetY = 0;
+            }
+          }
+          
+          // Global coordinate transformation variables for GameMaker
+          window.GMFullscreenScaleX = 1;
+          window.GMFullscreenScaleY = 1;
+          window.GMFullscreenOffsetX = 0;
+          window.GMFullscreenOffsetY = 0;
+          
+          // Expose coordinate transformation function to GameMaker
+          window.transformGameCoordinates = function(x, y) {
+            if (!document.fullscreenElement) {
+              return { x: x, y: y };
+            }
+            
+            // Transform screen coordinates to game coordinates
+            const gameX = (x - window.GMFullscreenOffsetX) / window.GMFullscreenScaleX;
+            const gameY = (y - window.GMFullscreenOffsetY) / window.GMFullscreenScaleY;
+            
+            return { x: gameX, y: gameY };
+          };
+          
+          document.addEventListener('fullscreenchange', function() {
+            if (document.fullscreenElement) {
+              console.log('Entered fullscreen mode - applying multi-touch fixes');
+              
+              // Force canvas to proper size for coordinate consistency
+              const canvas = document.getElementById('canvas');
+              if (canvas) {
+                // Force browser to recalculate touch coordinates
+                canvas.style.display = 'none';
+                canvas.offsetHeight; // Trigger reflow
+                canvas.style.display = 'block';
+                
+                // Apply specific fullscreen styles
+                canvas.style.touchAction = 'manipulation';
+                canvas.style.msTouchAction = 'manipulation';
+                canvas.style.objectFit = 'contain';
+                canvas.style.objectPosition = 'center';
+                
+                console.log('✅ Applied fullscreen multi-touch fixes');
+              }
+              
+              setTimeout(updateFullscreenCoordinates, 100); // Small delay for layout to settle
+            } else {
+              console.log('Exited fullscreen mode - resetting coordinates');
+              
+              // Remove fullscreen-specific styles
+              const canvas = document.getElementById('canvas');
+              if (canvas) {
+                canvas.style.objectFit = '';
+                canvas.style.objectPosition = '';
+                console.log('✅ Removed fullscreen styles');
+              }
+              
+              updateFullscreenCoordinates();
+            }
+          });
+          
+          // Multi-touch support for iPad
+          document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+            console.log('Gesture start detected');
+          }, { passive: false });
+          
+          document.addEventListener('gesturechange', function(e) {
+            e.preventDefault();
+            console.log('Gesture change detected');
+          }, { passive: false });
+          
+          document.addEventListener('gestureend', function(e) {
+            e.preventDefault();
+            console.log('Gesture end detected');
+          }, { passive: false });
+        </script>
+
         <!-- Builtin injector for injecting google analytics code -->
         
 
